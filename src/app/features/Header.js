@@ -41,7 +41,6 @@ export const Header = () => {
   const [isGenreOpen, setIsGenreOpen] = useState(false);
   const containerRef = useRef(null);
 
-  // Гадна талд дарахад цонхыг хаах логик
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -64,9 +63,9 @@ export const Header = () => {
     <header className="relative z-50 w-full border-b border-[#E4E4E7] bg-white">
       <div className="mx-auto w-full max-w-7xl px-4 py-3">
         <div className="flex items-center justify-between gap-4">
-          <DarkLogo />
-
-          {/* Төв хэсэг: Жанр болон Хайлтын хэсэг */}
+          <button className="hover">
+            <DarkLogo />
+          </button>
           <div
             ref={containerRef}
             className="absolute left-1/2 flex -translate-x-1/2 items-center gap-3"
@@ -85,9 +84,7 @@ export const Header = () => {
               <span>Genre</span>
             </button>
 
-            {/* Хайлтын талбарын эх контейнер - relative байх ёстой */}
             <div className="relative w-94.75">
-              {/* Хайлтын иконы байрлалыг input дотор оруулав */}
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                 <Search />
               </div>
@@ -98,7 +95,6 @@ export const Header = () => {
               />
             </div>
 
-            {/* Жанрын цонх */}
             {isGenreOpen && (
               <div
                 className="

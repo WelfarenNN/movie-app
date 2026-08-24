@@ -32,9 +32,8 @@ export const TopRated = () => {
   return (
     <div className="w-full bg-white text-gray-900 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Секцийн толгой хэсэг: Upcoming болон See more */}
-        <div className="flex justify-between items-center mb-6 pb-2 border-b border-gray-100">
-          <h2 className="font-bold text-2xl text-gray-900">Top Rated</h2>
+        <div className="flex justify-between items-center mb-6 pb-2 ">
+          <p className="font-bold text-2xl text-gray-900">Top Rated</p>
           <button className="flex items-center gap-1.5 text-sm font-medium  transition-colors cursor-pointer hover:underline">
             See more <ArrowRight />
           </button>
@@ -50,7 +49,6 @@ export const TopRated = () => {
                   key={movie.id}
                   className="flex flex-col group cursor-pointer"
                 >
-                  {/* Киноны постер зураг */}
                   <div className="relative aspect-2/3 w-full overflow-hidden rounded-t-xl bg-gray-100">
                     <img
                       src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
@@ -59,10 +57,8 @@ export const TopRated = () => {
                     />
                   </div>
 
-                  {/* Киноны мэдээлэл (Зураг дээрх шиг доороо байрлана) */}
                   <div className="p-3 bg-[#f4f4f5] rounded-b-xl flex flex-col gap-2 min-h-22.5">
                     <div>
-                      {/* Одон үнэлгээ */}
                       <div className="flex items-center gap-1 mb-1 text-xs">
                         <span className="text-yellow-500 text-sm">★</span>
                         <span className="font-medium text-gray-800">
@@ -73,7 +69,6 @@ export const TopRated = () => {
                         <span className="text-gray-400">/10</span>
                       </div>
 
-                      {/* Киноны нэр */}
                       <h3 className="text-sm font-medium text-gray-900 line-clamp-2">
                         {movie.title}
                       </h3>
