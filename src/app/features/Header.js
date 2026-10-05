@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-import { DarkLogo } from "../icons/DarkLogo";
-import { DarkMode } from "../icons/DarkMode";
-import { Search } from "../icons/Search";
+import { DarkLogo } from "../Icons/DarkLogo";
+import { DarkMode } from "../Icons/DarkMode";
+import { Search } from "../Icons/Search";
 
 const genres = [
   "Action",

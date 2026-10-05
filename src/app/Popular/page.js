@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { Header } from "../features/Header";
-import { Footer } from "../features/Footer";
-import { Popular } from "../features/Popular";
+import { Header } from "../Features/Header";
+import { Footer } from "../Features/Footer";
+import { Popular } from "../Features/Popular";
 
 export default function PopularPage() {
+  
   return (
       <div className="w-full min-h-screen flex flex-col items-center overflow-x-hidden">
         <Header />

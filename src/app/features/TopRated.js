@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight } from "../icons/ArrowRight";
+import { ArrowRight } from "../Icons/ArrowRight";
 import Image from "next/image";
 
 const api_token =

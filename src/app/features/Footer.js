@@ -1,6 +1,6 @@
-import { LightLogo } from "../icons/LightLogo";
-import { PhoneLogo } from "../icons/PhoneLogo";
-import { MailLogo } from "../icons/MailLogo";
+import { LightLogo } from "../Icons/LightLogo";
+import { PhoneLogo } from "../Icons/PhoneLogo";
+import { MailLogo } from "../Icons/MailLogo";
 
 export const Footer = () => {
   return (

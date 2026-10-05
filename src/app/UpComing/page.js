@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Footer } from "./features/Footer";
-import { Header } from "./features/Header";
-import { UpComing } from "../features/UpComing";
+import { Footer } from "../Features/Footer";
+import { Header } from "../Features/Header";
+import { UpComing } from "../Features/UpComing";
 
 export default function UpComingPage() {
   return (

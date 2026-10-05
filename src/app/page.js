@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { HeroSection } from "./features/HeroSection";
-import { Footer } from "./features/Footer";
-import { Header } from "./features/Header";
-import { UpComing } from "./features/UpComing";
-import { Popular } from "./features/Popular";
-import { TopRated } from "./features/TopRated";
+import { HeroSection } from "./Features/HeroSection";
+import { Footer } from "./Features/Footer";
+import { Header } from "./Features/Header";
+import { UpComing } from "./Features/UpComing";
+import { Popular } from "./Features/Popular";
+import { TopRated } from "./Features/TopRated";
 
 export default function Home() {
   return (

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Play } from "../icons/Play";
-import { Right } from "../icons/RIght";
+import { Play } from "../Icons/Play";
+import { Right } from "../Icons/RIght";
 import Image from "next/image";
 
 const api_token =

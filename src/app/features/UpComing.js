@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight } from "../icons/ArrowRight";
+import { ArrowRight } from "../Icons/ArrowRight";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
 const api_token =
@@ -29,6 +30,10 @@ export const UpComing = () => {
         setLoading(false);
       });
   }, []);
+  const dataSliced = data.slice(0, 10);
+  const handleSeeMore = () => {
+    router.push(`/UpComing`);
+  };
   return (
     <div className="w-full bg-white text-gray-900 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,7 +48,7 @@ export const UpComing = () => {
         {!loading && errorMessage && <div>{errorMessage}</div>}
         {!loading && !errorMessage && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-8">
-            {data.slice(0,10).map((movie) => {
+            {data.slice(0, 10).map((movie) => {
               return (
                 <div
                   key={movie.id}
