@@ -4,8 +4,7 @@ import { Header } from "@/app/Features/Header";
 import { Footer } from "@/app/Features/Footer";
 import { ArrowRight } from "@/app/Icons/ArrowRight";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { Star } from "lucide-react";
 
