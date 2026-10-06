@@ -37,46 +37,29 @@ export default function Detail() {
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [crew, setCrew] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(""); // Нэмсэн: Алдаа хадгалах state
+  
   const loading = !movie || String(movie.id) !== String(id);
 
-  const getMovieDetails = async (movieId) => {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}?language=en-US&append_to_response=release_dates`,
-        { headers: { Authorization: `Bearer ${api_token}` } },
-      );
-      const data = await response.json();
-
-      const releaseDates = data.release_dates?.results || [];
-      const usRelease = releaseDates.find((item) => item.iso_3166_1 === "US");
-
-      const certification =
-        usRelease?.release_dates?.find((r) => r.certification)?.certification ||
-        "N/A";
-
-      return {
-        ...data,
-        certification,
-      };
-    } catch (error) {
-      console.error("Movie detail error:", error);
-    }
-  };
-  const getTrailer = async () => {
-    if (!id) return;
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
-      { headers: { Authorization: `Bearer ${api_token}` } },
-    );
-    const jsonData = await response.json();
-    return jsonData.results;
-  };
-
+  // 1. Trailer татах хэсгийг useEffect дотор нь оруулж зассан
   useEffect(() => {
     if (!id) return;
-    getTrailer()
-      .then((data) => setTrailer(data))
-      .catch(() => setErrorMessage("MOVIE API ERROR"));
+    
+    const fetchTrailer = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
+          { headers: { Authorization: `Bearer ${api_token}` } },
+        );
+        const jsonData = await response.json();
+        setTrailer(jsonData.results);
+      } catch (error) {
+        console.error("Trailer fetch error:", error);
+        setErrorMessage("MOVIE API ERROR");
+      }
+    };
+
+    fetchTrailer();
   }, [id]);
 
   const officialTrailer = trailer?.find(
@@ -84,32 +67,45 @@ export default function Detail() {
   );
   const youtubeKey = officialTrailer?.key || trailer?.[0]?.key;
 
-  const getCredits = async (movieId) => {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`,
-        { headers: { Authorization: `Bearer ${api_token}` } },
-      );
-      return await response.json();
-    } catch (error) {
-      console.error("Credits error:", error);
-      return { cast: [], crew: [] };
-    }
-  };
-
+  // 2. Movie Details болон Credits татах хэсгийг useEffect дотор нэгтгэж зассан
   useEffect(() => {
     if (!id) return;
 
-    Promise.all([getMovieDetails(id), getCredits(id)]).then(
-      ([movieData, creditsData]) => {
-        setMovie(movieData);
+    const fetchMovieAndCredits = async () => {
+      try {
+        // Киноны дэлгэрэнгүй мэдээлэл татах
+        const movieRes = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}?language=en-US&append_to_response=release_dates`,
+          { headers: { Authorization: `Bearer ${api_token}` } },
+        );
+        const movieData = await movieRes.json();
+        const releaseDates = movieData.release_dates?.results || [];
+        const usRelease = releaseDates.find((item) => item.iso_3166_1 === "US");
+        const certification =
+          usRelease?.release_dates?.find((r) => r.certification)?.certification ||
+          "N/A";
+
+        // Киноны багийн мэдээлэл татах (Credits)
+        const creditsRes = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+          { headers: { Authorization: `Bearer ${api_token}` } },
+        );
+        const creditsData = await creditsRes.json();
+
+        setMovie({ ...movieData, certification });
         setCast(creditsData.cast || []);
         setCrew(creditsData.crew || []);
-      },
-    );
+      } catch (error) {
+        console.error("Data fetch error:", error);
+      }
+    };
+
+    fetchMovieAndCredits();
   }, [id]);
+
+  // 3. Зураг дээрх анхааруулгыг зассан: movie хувьсагчийг хамаарлын жагсаалтад нэмсэн
   useEffect(() => {
-    if (!isPlaying || !id) return;
+    if (!isPlaying || !id || !movie) return; // movie байхгүй үед ажиллахгүй байх хамгаалалт нэмсэн
 
     const handleMessage = (event) => {
       if (!event.origin.includes("vidking.net")) return;
@@ -159,7 +155,7 @@ export default function Detail() {
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [isPlaying, id]);
+  }, [isPlaying, id, movie]); // movie-г энд нэмж өгснөөр алдаа арилна
 
   useEffect(() => {
     if (!movie || !id) return;
@@ -221,14 +217,19 @@ export default function Detail() {
 
       {/* Movie Detail Main Container */}
       <div className="max-w-6xl w-full px-4 mb-8 mt-12">
+        {errorMessage && (
+          <div className="bg-red-500/10 text-red-500 p-4 rounded-md mb-4 text-center">
+            {errorMessage}
+          </div>
+        )}
         <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight sm:leading-10 tracking-tight">
               {movie?.original_title}
             </h1>
             <p className="text-[14px] text-[#71717A] font-semibold mt-1">
-              {movie?.release_date.slice(0, 4)} • {movie.certification} •{" "}
-              {formatRuntime(movie.runtime)}
+              {movie?.release_date?.slice(0, 4)} • {movie?.certification} •{" "}
+              {formatRuntime(movie?.runtime)}
             </p>
           </div>
           <div>
@@ -281,7 +282,7 @@ export default function Detail() {
             <div className="absolute z-10 inset-x-4 sm:inset-x-6 bottom-4 sm:bottom-6 flex flex-col sm:flex-row gap-3 sm:justify-between text-white">
               <button
                 onClick={() => setIsPlaying(true)}
-                className="order-2 sm:order-1 relative overflow-hidden bg-gradient-to-b from-white/25 to-white/10 hover:from-white/35 hover:to-white/15 backdrop-blur-lg border border-white/30 text-white rounded-full gap-4 w-full sm:w-36 lg:w-40 h-12 sm:h-14 lg:h-16 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105 shadow-lg shadow-black/30"
+                className="order-2 sm:order-1 relative overflow-hidden from-white/25 to-white/10 hover:from-white/35 hover:to-white/15 backdrop-blur-lg border border-white/30 text-white rounded-full gap-4 w-full sm:w-36 lg:w-40 h-12 sm:h-14 lg:h-16 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105 shadow-lg shadow-black/30"
               >
                 <span className="absolute inset-x-0 top-0 h-px bg-white/50" />
                 <ArrowRight />
@@ -291,7 +292,7 @@ export default function Detail() {
               </button>
               <button
                 onClick={() => setTrailerIsPlaying(true)}
-                className="order-1 sm:order-2 relative overflow-hidden bg-gradient-to-b from-white/25 to-white/10 hover:from-white/35 hover:to-white/15 backdrop-blur-lg border border-white/30 text-white rounded-full gap-4 w-full sm:w-36 lg:w-40 h-12 sm:h-14 lg:h-16.5 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105 shadow-lg shadow-black/30"
+                className="order-1 sm:order-2 relative overflow-hidden from-white/25 to-white/10 hover:from-white/35 hover:to-white/15 backdrop-blur-lg border border-white/30 text-white rounded-full gap-4 w-full sm:w-36 lg:w-40 h-12 sm:h-14 lg:h-16.5 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105 shadow-lg shadow-black/30"
               >
                 <span className="absolute inset-x-0 top-0 h-px bg-white/50" />
                 <ArrowRight />
