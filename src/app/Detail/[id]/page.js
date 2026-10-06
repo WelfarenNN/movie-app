@@ -1,12 +1,12 @@
 "use client";
 
-import { Header } from "@/app/Features/Header";
-import { Footer } from "@/app/Features/Footer";
-import { ArrowRight } from "../../Icons/ArrowRight";
+
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
-import { Star } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
+import { Header } from "@/app/Features/Header";
+import { Footer } from "@/app/Features/Footer";
 
 const api_token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYzhlZjAyOThkNGEwMTllNmIwZTBmZjlkMWNiMWUzZSIsIm5iZiI6MTc4NjU4NTAxMy40ODUsInN1YiI6IjZhN2QxZmI1YWRkZTU4MmZiZTQ4NDY1YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JPm8k3QAGkaLOMzBRdtmWcnx_jCzaSpv0uWnGhZpum4";
@@ -417,7 +417,7 @@ export default function Detail() {
       {/* More Like This Cards Grid */}
       <Star id={id} />
 
-      <Footer />
+      <Footer/>
     </div>
   );
 }

@@ -12,9 +12,6 @@ export default function PopularPage() {
         <Header />
         <div className="w-full max-w-7xl flex flex-col gap-13 mt-13 shrink-0">
           <Popular />
-          <div>
-            
-          </div>
         </div>
         <Footer />
       </div>

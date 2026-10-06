@@ -1,3 +1,5 @@
+"use client"
+
 import { LightLogo } from "../Icons/LightLogo";
 import { PhoneLogo } from "../Icons/PhoneLogo";
 import { MailLogo } from "../Icons/MailLogo";

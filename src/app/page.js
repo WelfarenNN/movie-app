@@ -4,9 +4,9 @@ import Image from "next/image";
 import { HeroSection } from "./Features/HeroSection";
 import { Footer } from "./Features/Footer";
 import { Header } from "./Features/Header";
-import { UpComing } from "./Features/UpComing";
 import { Popular } from "./Features/Popular";
 import { TopRated } from "./Features/TopRated";
+import { UpComing } from "./Features/UpComing";
 
 export default function Home() {
   return (
