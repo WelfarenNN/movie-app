@@ -2,7 +2,7 @@
 
 import { Header } from "@/app/Features/Header";
 import { Footer } from "@/app/Features/Footer";
-import { ArrowRight } from "@/app/Icons/ArrowRight";
+import { ArrowRight } from "../../Icons/ArrowRight";
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
